@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Group Schedule Finder</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+    input {
+      padding: 10px;
+      width: 200px;
+    }
+    button {
+      padding: 10px 20px;
+    }
+    #result {
+      margin-top: 20px;
+      white-space: pre-wrap;
+      background: #fff;
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h1>Group Schedule Finder</h1>
+  <input type="text" id="groupInput" placeholder="Enter group name (A-F)" />
+  <button onclick="findSchedule()">Find Schedule</button>
+  <div id="result"></div>
+
+  <script>
+    const schedule = [
+      { date: "29.3.2025", slots: ["A", "B", "C", "D", "E", "F"] },
+      { date: "30.3.2025", slots: ["F", "A", "B", "C", "D", "E"] },
+      { date: "31.3.2025", slots: ["E", "F", "A", "B", "C", "D"] },
+      { date: "1.4.2025", slots: ["D", "E", "F", "A", "B", "C"] },
+      { date: "2.4.2025", slots: ["C", "D", "E", "F", "A", "B"] },
+      { date: "3.4.2025", slots: ["B", "C", "D", "E", "F", "A"] },
+      { date: "4.4.2025", slots: ["A", "B", "C", "D", "E", "F"] }
+    ];
+
+    const times = [
+      "5:00 to 9:00",
+      "9:00 to 13:00",
+      "13:00 to 17:00",
+      "17:00 to 21:00",
+      "21:00 to Next 1:00",
+      "Next 1:00 to 5:00"
+    ];
+
+    function findSchedule() {
+      const group = document.getElementById("groupInput").value.trim().toUpperCase();
+      let result = "";
+
+      if (!group.match(/^[A-F]$/)) {
+        document.getElementById("result").textContent = "Please enter a valid group name (A-F).";
+        return;
+      }
+
+      schedule.forEach(day => {
+        day.slots.forEach((g, index) => {
+          if (g === group) {
+            result += `${day.date} - ${times[index]}\n`;
+          }
+        });
+      });
+
+      document.getElementById("result").textContent = result || "No schedule found for this group.";
+    }
+  </script>
+</body>
+</html>
